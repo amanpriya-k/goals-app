@@ -10,6 +10,38 @@
   </head>
 
   <body>
+    <header>
+      <% if logged_in? %>
+        <h1> Welcome, <a href=" <%= user_url(current_user) %> "> <%= current_user.username %></a> </h1>
+        <form action=" <%= session_url %>" method="post">
+          <input type="hidden" name="_method" value="delete">
+          <%= auth_token %>
+          <input type="submit" value="Log out!">
+        </form>
+      <% else %>
+      <!-- <h1>Login or sign up below! <%#= request.original_fullpath %> </h1> -->
+        <% unless request.original_fullpath == "/users/new" %>
+          <form action=" <%= new_user_url %>" method="post">
+            <input type="hidden" name="_method" value="get">
+            <input type="submit" value="Sign up!">
+          </form>
+        <% end %>
+        <% unless request.original_fullpath == "/session/new" %>
+          <form action=" <%= new_session_url %>" method="post">
+            <input type="hidden" name="_method" value="get">
+            <input type="submit" value="Log in!">
+          </form>
+        <% end %>
+      <% end %>
+    </header>
+    
+    <% if flash[:errors] %>
+      <% flash[:errors].each do |error| %>
+        <%= error %>
+      <% end %>
+    <% end %>
+    
     <%= yield %>
+    
   </body>
 </html>

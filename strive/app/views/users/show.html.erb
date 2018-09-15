@@ -1,0 +1,6 @@
+<h2>This is your profile, <%= @user.username %>!</h2>
+
+<form action=" <%= edit_user_url(@user) %>" method="post">
+  <input type="hidden" name="_method" value="get">
+  <input type="submit" value="Edit user info!">
+</form>
